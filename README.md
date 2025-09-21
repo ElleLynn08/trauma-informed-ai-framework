@@ -1,6 +1,6 @@
 # Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
 
-> Graduate thesis exploring interpretable AI for trauma-aware emotional state recognition and clinical augmentation.
+> Graduate independent study exploring interpretable AI for trauma-aware emotional state recognition and clinical augmentation.
 
 ---
 
@@ -63,7 +63,7 @@ Traditional AI systems often misinterpret trauma responses—mistaking withdrawa
 - [ ] Complete full EDA on DAIC-WOZ  
 - [ ] Prototype initial multimodal classification model  
 - [ ] Integrate SHAP explainability outputs  
-- [ ] Draft publication-ready thesis paper  
+- [ ] Draft publication-ready article  
 - [ ] Prepare visuals and dashboard for final submission/presentation  
 
 ---
@@ -81,7 +81,5 @@ For questions, collaborations, or media inquiries, contact:
 
 ---
 
-> ✨ This project is part of an independent thesis at Vanderbilt University, with the goal of contributing a publishable, reproducible, and human-centered AI model to support trauma-informed care.
-
-
+> ✨ This project is part of an independent study at Vanderbilt University, with the goal of contributing a publishable, reproducible, and human-centered AI model to support trauma-informed care.
 
