@@ -1,0 +1,9 @@
+# Text embeddings (semantic vectors)
+sentence-transformers
+
+# Audio features (choose either or both approaches)
+librosa
+soundfile
+
+# OpenSMILE Python wrapper (prosody features)
+opensmile
