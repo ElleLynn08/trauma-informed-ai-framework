@@ -56,12 +56,12 @@ notebook:
 # Example: make run-nb NB=notebooks/03_feature_engineering_multimodal.ipynb
 run-nb:
 	@if [ -z "$(NB)" ]; then echo "Please provide NB=path/to/notebook.ipynb"; exit 2; fi
-	jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout="$(TIMEOUT)" --execute "$(NB)"
+	PYTHONPATH="$(PWD)/src:$(PYTHONPATH)" jupyter nbconvert --to notebook --inplace --ExecutePreprocessor.timeout="$(TIMEOUT)" --execute "$(NB)"
 
 # Execute ALL notebooks in NB_DIR, skipping those that start with "_".
 # Uses the helper script in scripts/run_all_notebooks.sh for clarity.
 run-all:
-	NB_DIR="$(NB_DIR)" TIMEOUT="$(TIMEOUT)" bash scripts/run_all_notebooks.sh
+	NB_DIR="$(NB_DIR)" TIMEOUT="$(TIMEOUT)" PYTHONPATH="$(PWD)/src:$(PYTHONPATH)" bash scripts/run_all_notebooks.sh
 
 # Strip outputs from all notebooks to keep diffs clean (requires nbstripout)
 strip:
