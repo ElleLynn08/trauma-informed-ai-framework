@@ -20,9 +20,82 @@ Traditional AI systems often misinterpret trauma responses—mistaking withdrawa
 
 ## 📚 Dataset Used
 
-| Dataset     | Source    | Status              | Notes                                                       |
-|-------------|-----------|---------------------|-------------------------------------------------------------|
-| DAIC-WOZ    | USC-ICT   | ✅ Approved/downloaded | Depression & anxiety interviews with rich multimodal cues   |
+| Dataset     | Source                     | Status              | Notes                                                                 |
+|-------------|----------------------------|---------------------|-----------------------------------------------------------------------|
+| DAIC-WOZ    | USC-ICT                    | ✅ Approved/downloaded | Depression & anxiety interviews with rich multimodal cues             |
+| CASME Ⅱ     | Chinese Academy of Sciences | ✅ Approved          | Micro-expressions; access granted upon request                        |
+| SMIC        | University of Oulu         | ⏳ Pending           | Micro-expression dataset; license agreement required before download  |
+
+> ⚠️ **Data Access Notice:**  
+> These datasets are not publicly distributable.  
+> To reproduce experiments, researchers must **request access directly from the dataset providers** and comply with their usage agreements.
+
+---
+
+## ⚡ Getting Started
+
+Clone the repo and create a virtual environment (recommended: `.venv`):
+
+```bash
+git clone <your-repo-url>
+cd trauma-informed-ai-framework
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### Install Dependencies
+
+- **Base only** (minimal, reproducible env):
+  ```bash
+  make dev
+  ```
+
+- **Extras only** (embeddings, audio, widgets, etc.):
+  ```bash
+  make extras
+  ```
+
+- **All dependencies** (base + extras in one go):
+  ```bash
+  make all-deps
+  ```
+
+### Workflow Commands
+
+- **Run tests** (validate pipeline with pytest):
+  ```bash
+  make test
+  ```
+
+- **Clean caches** (remove Python/pytest caches):
+  ```bash
+  make clean
+  ```
+
+- **Launch JupyterLab** for exploration:
+  ```bash
+  make notebook
+  ```
+
+- **Run a single notebook** (machine-check reproducibility):
+  ```bash
+  make run-nb NB=notebooks/01_import_clean_eda.ipynb
+  ```
+
+- **Run all notebooks** (end-to-end reproducibility check):
+  ```bash
+  make run-all
+  ```
+
+- **Strip notebook outputs** (privacy + clean diffs):
+  ```bash
+  make strip
+  ```
+
+- **Freeze environment** (save exact versions to lock file):
+  ```bash
+  make freeze
+  ```
 
 ---
 
@@ -32,7 +105,7 @@ Traditional AI systems often misinterpret trauma responses—mistaking withdrawa
 - OpenFace, OpenSMILE for facial and audio features
 - HuggingFace Transformers (BERT / DistilBERT)
 - SHAP or LIME for explainability
-- Jupyter Notebook
+- Jupyter Notebook / JupyterLab
 - `.venv` (virtual environment)
 
 ---
@@ -54,7 +127,7 @@ Traditional AI systems often misinterpret trauma responses—mistaking withdrawa
   - models/ — Saved model artifacts
   - utils/ — Custom feature extraction scripts
   - README.md — You're here
-  - thesis_scope_vision.md — Research statement and project vision
+  - article_draft.md — Research article draft for publication
 
 ---
 
@@ -82,4 +155,3 @@ For questions, collaborations, or media inquiries, contact:
 ---
 
 > ✨ This project is part of an independent study at Vanderbilt University, with the goal of contributing a publishable, reproducible, and human-centered AI model to support trauma-informed care.
-
