@@ -1,8 +1,1 @@
-repos:
-- repo: local
-  hooks:
-  - id: clean-notebooks
-    name: Clean notebooks (strip non-ASCII except emojis)
-    entry: python utils/clean_notebooks.py --write notebooks/
-    language: system
-    files: ^notebooks/.*\.ipynb$
+repos: []
