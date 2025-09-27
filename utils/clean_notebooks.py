@@ -38,32 +38,44 @@ EMOJI_KEEP = re.compile(
 SPECIAL_OK = {0x200D, 0xFE0F}  # ZWJ & variation selector-16
 
 def normalize_text(s: str) -> tuple[str, bool]:
-    """Return (clean_text, changed?)."""
+    """Return (cleaned_text, changed?). Safer version that preserves leading indentation."""
+    lines = s.splitlines()
+    cleaned = []
     changed = False
-    # map common curly quotes/dashes
-    if any(ch in s for ch in ASCII_MAP):
-        for k, v in ASCII_MAP.items():
-            if k in s:
-                s = s.replace(k, v); changed = True
 
-    out_chars = []
-    for ch in s:
-        cp = ord(ch)
-        if ch == "\n" or ch == "\t":              # always keep newlines/tabs
-            out_chars.append(ch); continue
-        if cp < 128:                               # ASCII is fine
-            out_chars.append(ch); continue
-        if cp in SPECIAL_OK:                       # ZWJ/VS for emoji
-            out_chars.append(ch); continue
-        if EMOJI_KEEP.match(ch):                   # emoji kept
-            out_chars.append(ch); continue
-        # drop or replace other non-ASCII
-        out_chars.append(" "); changed = True
-    cleaned = "".join(out_chars)
-    # collapse multiple spaces introduced by replacements
-    if "  " in cleaned:
-        cleaned = re.sub(r"[ ]{2,}", " ", cleaned); changed = True
-    return cleaned, changed
+    for line in lines:
+        leading = len(line) - len(line.lstrip(" \t"))
+        prefix = line[:leading]
+        body = line[leading:]
+
+        # map smart quotes/dashes only inside the body
+        for k, v in ASCII_MAP.items():
+            if k in body:
+                body = body.replace(k, v)
+                changed = True
+
+        out_chars = []
+        for ch in body:
+            cp = ord(ch)
+            if ch == "\n" or ch == "\t":
+                out_chars.append(ch); continue
+            if cp < 128:
+                out_chars.append(ch); continue
+            if cp in SPECIAL_OK:
+                out_chars.append(ch); continue
+            if EMOJI_KEEP.match(ch):
+                out_chars.append(ch); continue
+            out_chars.append(" "); changed = True
+
+        cleaned_line = prefix + "".join(out_chars)
+        cleaned.append(cleaned_line)
+
+    final = "\n".join(cleaned)
+    if "  " in final:
+        final = re.sub(r"[ ]{2,}", " ", final); changed = True
+
+    return final, changed
+
 
 def iter_notebook_cells(nb: dict) -> Iterable[tuple[list, int]]:
     """Yield (cell_source_list, cell_index) for code/markdown cells."""
