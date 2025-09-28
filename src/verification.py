@@ -78,3 +78,39 @@ def min_class_presence(labels_by_split: Dict[str, Iterable], min_count: int = 5)
 def assert_label_domain(y: Iterable, allowed=tuple([0, 1])) -> None:
     bad = set(pd.Series(list(y)).unique()) - set(allowed)
     assert not bad, f"Unexpected labels detected: {bad}"
+# ---------------------------------------------------------------------------
+# verify_env: tiny runtime report for smoke tests and CI logs
+# ---------------------------------------------------------------------------
+def verify_env():
+    """Return a small dict describing the runtime environment.
+
+    Why:
+        - Lets smoke tests/CI capture environment info (Python, platform, libs).
+        - Helps reviewers (e.g., Dr. S) quickly see if Z3/Torch are available.
+        - Non-critical: always degrades gracefully if packages are missing.
+    """
+    import sys, platform
+    info = {
+        "python": sys.version.split()[0],       # Python version (major.minor.patch)
+        "platform": platform.platform(),        # OS/platform string
+    }
+
+    # Z3 (optional SMT solver for formal checks)
+    try:
+        import z3
+        getver = getattr(z3, "get_version_string", None)
+        info["z3"] = getver()() if callable(getver) else "installed"
+    except Exception:
+        info["z3"] = "not installed"
+
+    # PyTorch + CUDA (optional, for deep models / GPU availability)
+    try:
+        import torch
+        info["torch"] = torch.__version__
+        info["cuda"] = bool(getattr(torch, "cuda", None) and torch.cuda.is_available())
+        if info["cuda"]:
+            info["gpu"] = torch.cuda.get_device_name(0)
+    except Exception:
+        info.setdefault("torch", "not installed")
+
+    return info
