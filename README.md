@@ -6,7 +6,7 @@
 
 ## 📌 Project Summary
 
-This research explores a trauma-informed, multimodal AI framework that detects affective patterns such as emotional shutdown, dissociation, or depressive flat affect in high-stakes environments. The goal is to support—not replace—human decision-making in clinical and crisis response contexts.
+This research explores a trauma-informed, multimodal AI framework that detects affective patterns such as emotional shutdown, dissociation, or depressive flat affect in high-stakes environments. The goal is to support-not replace-human decision-making in clinical and crisis response contexts.
 
 This first phase leverages the **DAIC-WOZ dataset** to prototype an emotionally-aware, ethically guided ML system with a strong emphasis on transparency and real-world clinical relevance.
 
@@ -14,7 +14,7 @@ This first phase leverages the **DAIC-WOZ dataset** to prototype an emotionally-
 
 ## 🧠 Why It Matters
 
-Traditional AI systems often misinterpret trauma responses—mistaking withdrawal, flat affect, or dissociation for resistance or noncompliance. This work contributes to the growing movement toward **compassion-centered**, **bias-mitigated**, and **interpretable** machine learning solutions.
+Traditional AI systems often misinterpret trauma responses-mistaking withdrawal, flat affect, or dissociation for resistance or noncompliance. This work contributes to the growing movement toward **compassion-centered**, **bias-mitigated**, and **interpretable** machine learning solutions.
 
 ---
 
@@ -23,14 +23,15 @@ Traditional AI systems often misinterpret trauma responses—mistaking withdrawa
 | Dataset     | Source                     | Status              | Notes                                                                 |
 |-------------|----------------------------|---------------------|-----------------------------------------------------------------------|
 | DAIC-WOZ    | USC-ICT                    | ✅ Approved/downloaded | Depression & anxiety interviews with rich multimodal cues             |
-| CASME Ⅱ     | Chinese Academy of Sciences | ✅ Approved          | Micro-expressions; access granted upon request                        |
-| SMIC        | University of Oulu         | ⏳ Pending           | Micro-expression dataset; license agreement required before download  |
+| CASME II    | Chinese Academy of Sciences | ✅ Approved          | Micro-expressions; access granted upon request                        |
+| SMIC        | University of Oulu         | Pending            | Micro-expression dataset; license agreement required before download  |
 
 > ⚠️ **Data Access Notice:**  
 > These datasets are not publicly distributable.  
 > To reproduce experiments, researchers must **request access directly from the dataset providers** and comply with their usage agreements.
 
 ---
+
 
 ## ⚡ Getting Started
 
@@ -122,14 +123,41 @@ source .venv/bin/activate
 ## 📦 Project Structure
 
 - trauma-informed-ai-framework/
-  - data/ — Preprocessed DAIC-WOZ data
-  - notebooks/ — Exploratory modeling & EDA
-  - models/ — Saved model artifacts
-  - utils/ — Custom feature extraction scripts
-  - README.md — You're here
-  - article_draft.md — Research article draft for publication
+  - data/ - Preprocessed DAIC-WOZ data
+  - notebooks/ - Exploratory modeling & EDA
+  - models/ - Saved model artifacts
+  - utils/ - Custom feature extraction scripts
+  - README.md - You're here
+  - article_draft.md - Research article draft for publication
 
 ---
+
+---
+
+## 🌱 Elle-isms in This Project
+
+This project is technical at its core, but it also carries my personality.  
+I believe data science should be **human, memorable, and compassionate** - not just rows and columns.
+
+One Elle-ism you'll see throughout the notebooks is the **"Spider Check" 🕷️**.
+
+### What's a Spider Check?
+When you're camping or staying in a cabin, before you crawl into bed you pull back the covers to make sure there are no critters - or spiders - hiding there. That little ritual gives you peace of mind before you rest.
+
+In my workflow, a *Spider Check* is the same idea:  
+- A quick `head(2)` peek or shape check  
+- Confirming the data looks as expected  
+- Making sure no hidden "critters" (errors, empty frames, wrong encodings) are lurking  
+
+It's a peace-of-mind step before building further.  
+Because good data science isn't just about seeing what's obvious -  
+> **it's about seeing the unseen.**
+
+👉 You'll see Spider Checks sprinkled across the notebooks (Audio, Text, TF-IDF, PHQ-8, and Multimodal Merge).  
+Each one is a quick peace-of-mind peek tailored to its modality.
+
+---
+
 
 ## 🔭 Upcoming Milestones
 

@@ -1,49 +1,38 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
-
-# OS/editor
+# Build/logs/OS cruft
+logs/
 .DS_Store
+
+# IDE & editor settings
 .idea/
 .vscode/
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Virtual environments
 .venv/
-.env
+venv/
 
-# Jupyter
-.ipynb_checkpoints/
-notebooks/.ipynb_checkpoints/
-notebooks/.DS_Store
+# Local docs / scratch
+*.docx
 
-# Data & outputs (tracked only via small samples)
+# Notebook checkpoints
+**/.ipynb_checkpoints/
+
+# Processed / raw data artifacts (keep repo light; commit via DVC or releases if needed)
 data/raw/
-data/interim/
 data/cleaned/
-data/final/
-outputs/
-models/
-checkpoints/
-artifacts/
+data/processed/*.csv
+data/processed/*.json
+data/processed/*.parquet
 
-# Large files
-*.parquet
-*.feather
-*.arrow
-*.h5
-*.hdf5
-*.pkl
-*.pt
-*.pth
-*.onnx
-*.joblib
-*.npz
-*.wav
-*.mp3
-*.mp4
-*.mov
-*.zip
-*.tar
-*.gz
+# Notebook outputs
+notebooks/data/
+notebooks/outputs/
+
+# Outputs folder
+outputs/
+
+# Python cache
+__pycache__/
+src/__pycache__/
+tests/__pycache__/
+utils/__pycache__/
+

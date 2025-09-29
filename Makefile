@@ -5,6 +5,7 @@ SHELL := /bin/bash
 # Usage: from the project root (with your venv active), run:
 #   make dev        -> install base requirements
 #   make extras     -> install optional heavy deps (embeddings/audio)
+#   make all-deps   -> install both base + extras
 #   make test       -> run pytest test suite
 #   make clean      -> remove Python cache folders
 #   make notebook   -> launch JupyterLab in this repo
@@ -12,12 +13,16 @@ SHELL := /bin/bash
 #   make run-all    -> execute ALL notebooks in notebooks/ (skips those starting with "_")
 #   make strip      -> strip outputs from all notebooks (nbstripout)
 #   make freeze     -> export a pinned requirements lock file
+#   make ascii-check -> crawl utils/, notebooks/, README.md for non-ASCII (summary)
+#   make nb-check   -> dry-run: list notebooks that would be normalized
+#   make nb-fix     -> rewrite notebooks in-place to normalized ASCII (keep emoji)
 #
 # Note: These commands operate in the active virtual environment.
 # Ensure the prompt shows your venv (e.g., (.venv)) before running `make`.
 #
 
-.PHONY: dev extras all-deps test clean notebook run-nb run-all strip freeze
+.PHONY: dev extras all-deps test clean notebook run-nb run-all strip freeze \
+        ascii-check nb-check nb-fix spider-check
 
 # Defaults used by run-nb/run-all
 NB_DIR ?= notebooks
@@ -84,3 +89,32 @@ strip:
 # Why: Capture an exact, shareable snapshot for archival or paper replication.
 freeze:
 	pip freeze > requirements-lock.txt
+
+
+# ------------------------------
+# Sanity / hygiene helpers
+# ------------------------------
+
+# ascii-check: Quick crawl for non-ASCII across key areas (quiet summary).
+# ascii-check: code/docs only (not notebooks); do not fail the build
+ascii-check:
+	python utils/ascii_check.py utils/ README.md --ext ".py,.md,.txt,.csv" --summary || true
+
+
+# spider-check: Alias for ascii-check (because it's adorable and on-brand).
+spider-check: ascii-check
+
+# nb-check: Dry-run notebook normalization (list notebooks that would change).
+nb-check:
+	python utils/clean_notebooks.py --check $(NB_DIR)/
+
+# nb-fix: Rewrite notebooks in-place to normalized ASCII (keeps emoji ranges).
+nb-fix:
+	python utils/clean_notebooks.py --write $(NB_DIR)/
+
+# env: Print Python + package presence (calls utils/sanity.py:sanity_env).
+# Why: Quick peek at interpreter and library availability; helpful for debugging.
+env:
+	python -c "from utils.sanity import sanity_env; sanity_env()"
+# sanity: Run environment check + ascii-check + nb-check
+sanity: env ascii-check nb-check

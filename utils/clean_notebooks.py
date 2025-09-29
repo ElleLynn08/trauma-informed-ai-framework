@@ -1,130 +1,161 @@
 #!/usr/bin/env python3
 """
 Clean Jupyter notebooks by:
-- normalizing curly quotes/dashes/ellipsis to ASCII
-- stripping non-ASCII characters EXCEPT emojis (common ranges)
-- preserving whitespace, newlines, ZWJ + variation selectors used by emoji
+- normalizing smart punctuation to ASCII
+- removing non-ASCII chars except selected emoji ranges
+- preserving whitespace, newlines, ZWJ and variation selectors used by emoji
 
 Usage:
   python utils/clean_notebooks.py --check notebooks/
   python utils/clean_notebooks.py --write notebooks/
 """
-from __future__ import annotations
-import argparse, json, re
-from pathlib import Path
-from typing import Iterable
 
-# ascii replacements for common “smart” characters
+from __future__ import annotations
+
+import argparse
+import json
+import re
+from pathlib import Path
+from typing import Iterable, Tuple
+
+# ASCII replacements for common smart characters (shown as Unicode escapes)
+#   \u2018 \u2019  -> apostrophe '
+#   \u201C \u201D  -> double quote "
+#   \u2013 \u2014  -> hyphen -
+#   \u2026        -> ellipsis "..."
 ASCII_MAP = {
-    "\u2018": "'", "\u2019": "'",  # ‘ ’
-    "\u201C": '"', "\u201D": '"',  # “ ”
-    "\u2013": "-", "\u2014": "-",  # – —
-    "\u2026": "...",               # …
-    "\u00A0": " ",                 # non-breaking space
+    "\u2018": "'", "\u2019": "'",  # left/right single quotation mark
+    "\u201C": '"', "\u201D": '"',  # left/right double quotation mark
+    "\u2013": "-", "\u2014": "-",  # en dash, em dash
+    "\u2026": "...",               # ellipsis
 }
 
-# emoji & symbols ranges to KEEP (rough but practical)
-#   Misc Symbols + Dingbats + Emoji + supplemental + flags + transport etc.
-EMOJI_KEEP = re.compile(
-    "["                       # begin class
-    "\U0001F300-\U0001FAFF"   # main emoji blocks
-    "\U0001F900-\U0001F9FF"   # Supplemental Symbols and Pictographs
-    "\U00002600-\U000027BF"   # Misc symbols, dingbats (☀️✈️✔️…)
-    "\U0001F1E6-\U0001F1FF"   # regional indicator (flags)
+# Allowed emoji-related codepoints to keep when stripping:
+# - Zero-width joiner (\u200D) and variation selector-16 (\uFE0F) are kept,
+#   because many emoji sequences rely on them.
+# - Emoji ranges are applied via regex below (U+2600..U+27BF etc.).
+ZWJ = "\u200D"
+VS16 = "\uFE0F"
+
+# Regex for characters we consider "emoji-ish" and should keep.
+# Ranges shown as Unicode escapes to keep this file ASCII-only.
+EMOJI_KEEP_RE = re.compile(
+    "["                       # start class
+    "\u2600-\u27BF"           # misc symbols, dingbats (e.g., U+2600..U+27BF)
+    "\U0001F300-\U0001F5FF"   # symbols & pictographs
+    "\U0001F600-\U0001F64F"   # emoticons
+    "\U0001F680-\U0001F6FF"   # transport & map
+    "\U0001F700-\U0001F77F"   # alchemical symbols
+    "\U0001F900-\U0001F9FF"   # supplemental symbols & pictographs
+    "\U0001FA70-\U0001FAFF"   # symbols & pictographs extended-A
     "]"
 )
 
-# special codepoints used inside emoji sequences we should keep
-SPECIAL_OK = {0x200D, 0xFE0F}  # ZWJ & variation selector-16
+def normalize_text(s: str) -> str:
+    """Normalize a notebook text blob to ASCII with limited emoji allowed."""
+    if not s:
+        return s
+    # Replace known smart punctuation with ASCII equivalents
+    for k, v in ASCII_MAP.items():
+        s = s.replace(k, v)
 
-def normalize_text(s: str) -> tuple[str, bool]:
-    """Return (cleaned_text, changed?). Safer version that preserves leading indentation."""
-    lines = s.splitlines()
-    cleaned = []
-    changed = False
+    # Build cleaned string by iterating codepoints
+    out_chars = []
+    for ch in s:
+        code = ord(ch)
+        if ch in (ZWJ, VS16):
+            out_chars.append(ch)
+            continue
+        if EMOJI_KEEP_RE.match(ch):
+            out_chars.append(ch)
+            continue
+        # Keep ASCII
+        if code < 128:
+            out_chars.append(ch)
+            continue
+        # Otherwise drop the non-ASCII char
+        # (you could also map or log here if desired)
+    return "".join(out_chars)
 
-    for line in lines:
-        leading = len(line) - len(line.lstrip(" \t"))
-        prefix = line[:leading]
-        body = line[leading:]
+def clean_notebook(nb_json: dict) -> Tuple[dict, int]:
+    """Return cleaned notebook JSON and number of edits."""
+    edits = 0
+    def _maybe_norm(x: str) -> str:
+        nonlocal edits
+        y = normalize_text(x)
+        if y != x:
+            edits += 1
+        return y
 
-        # map smart quotes/dashes only inside the body
-        for k, v in ASCII_MAP.items():
-            if k in body:
-                body = body.replace(k, v)
-                changed = True
+    for cell in nb_json.get("cells", []):
+        if "source" in cell and isinstance(cell["source"], list):
+            cell["source"] = [_maybe_norm(line) for line in cell["source"]]
+        elif "source" in cell and isinstance(cell["source"], str):
+            cell["source"] = _maybe_norm(cell["source"])
 
-        out_chars = []
-        for ch in body:
-            cp = ord(ch)
-            if ch == "\n" or ch == "\t":
-                out_chars.append(ch); continue
-            if cp < 128:
-                out_chars.append(ch); continue
-            if cp in SPECIAL_OK:
-                out_chars.append(ch); continue
-            if EMOJI_KEEP.match(ch):
-                out_chars.append(ch); continue
-            out_chars.append(" "); changed = True
+        # Also normalize outputs' text/plain, text/html, etc.
+        for out in cell.get("outputs", []) or []:
+            if "text" in out and isinstance(out["text"], list):
+                out["text"] = [_maybe_norm(line) for line in out["text"]]
+            elif "text" in out and isinstance(out["text"], str):
+                out["text"] = _maybe_norm(out["text"])
+            for key in ("text/plain", "text/html"):
+                data = out.get("data", {})
+                if key in data and isinstance(data[key], list):
+                    data[key] = [_maybe_norm(line) for line in data[key]]
+                elif key in data and isinstance(data[key], str):
+                    data[key] = _maybe_norm(data[key])
 
-        cleaned_line = prefix + "".join(out_chars)
-        cleaned.append(cleaned_line)
+    return nb_json, edits
 
-    final = "\n".join(cleaned)
-    if "  " in final:
-        final = re.sub(r"[ ]{2,}", " ", final); changed = True
+def iter_notebooks(root: Path) -> Iterable[Path]:
+    """Yield .ipynb files under root (recursively), skipping hidden dirs."""
+    for p in root.rglob("*.ipynb"):
+        parts = set(p.parts)
+        if any(x.startswith(".") for x in parts):
+            continue
+        yield p
 
-    return final, changed
-
-
-def iter_notebook_cells(nb: dict) -> Iterable[tuple[list, int]]:
-    """Yield (cell_source_list, cell_index) for code/markdown cells."""
-    for i, cell in enumerate(nb.get("cells", [])):
-        if cell.get("cell_type") in {"code", "markdown"}:
-            src = cell.get("source")
-            # source may be string or list of lines
-            if isinstance(src, list):
-                yield src, i
-            elif isinstance(src, str):
-                lines = src.splitlines(keepends=True)
-                cell["source"] = lines
-                yield lines, i
-
-def clean_notebook(path: Path, write: bool) -> bool:
-    nb = json.loads(path.read_text(encoding="utf-8"))
-    touched = False
-    for src, _ in iter_notebook_cells(nb):
-        for j, line in enumerate(src):
-            cleaned, changed = normalize_text(line)
-            if changed:
-                src[j] = cleaned
-                touched = True
-    if touched and write:
-        path.write_text(json.dumps(nb, ensure_ascii=False, indent=1), encoding="utf-8")
-    return touched
-
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("paths", nargs="+", help="Notebook files or directories")
-    ap.add_argument("--check", action="store_true", help="Only report problems")
-    ap.add_argument("--write", action="store_true", help="Rewrite notebooks in place")
+def main() -> None:
+    ap = argparse.ArgumentParser(
+        description="Normalize notebooks to ASCII (keep limited emoji)."
+    )
+    ap.add_argument("--check", action="store_true", help="Report files needing changes.")
+    ap.add_argument("--write", action="store_true", help="Rewrite files in-place.")
+    ap.add_argument("paths", nargs="+", help="Notebook files or folders to process.")
     args = ap.parse_args()
-    if not (args.check ^ args.write):
-        ap.error("Choose exactly one of --check or --write")
 
-    any_touched = False
-    for p in args.paths:
-        pth = Path(p)
-        items = [pth] if pth.suffix == ".ipynb" else list(pth.rglob("*.ipynb"))
-        for nb in items:
-            touched = clean_notebook(nb, write=args.write)
-            if touched:
-                any_touched = True
-                action = "would change" if args.check else "cleaned"
-                print(f"{action}: {nb}")
+    if not (args.check or args.write):
+        ap.error("choose one of --check or --write")
 
-    if args.check and any_touched:
-        raise SystemExit(1)  # signal CI/pre-commit that cleaning is needed
+    changed = []
+    for raw in args.paths:
+        path = Path(raw)
+        targets = [path] if path.is_file() else list(iter_notebooks(path))
+        for nb_path in targets:
+            try:
+                nb = json.loads(nb_path.read_text(encoding="utf-8"))
+            except Exception as e:
+                print(f"skip unreadable: {nb_path} ({e})")
+                continue
+
+            cleaned, edits = clean_notebook(nb)
+            if edits > 0:
+                if args.write:
+                    nb_path.write_text(json.dumps(cleaned, ensure_ascii=False, indent=1), encoding="utf-8")
+                    print(f"wrote: {nb_path} (edits={edits})")
+                else:
+                    changed.append(nb_path)
+
+    if args.check:
+        if changed:
+            print("\nNOTEBBOOKS NEED NORMALIZATION:")
+            for p in changed:
+                print(" -", p)
+            raise SystemExit(1)
+        else:
+            print("all notebooks clean.")
 
 if __name__ == "__main__":
     main()
+
