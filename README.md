@@ -100,6 +100,17 @@ source .venv/bin/activate
 
 ---
 
+## 🧼 Reproducibility & Hygiene
+
+This project follows strict hygiene practices to ensure clean, reproducible notebooks and code.  
+- Non-ASCII characters are stripped or normalized.  
+- Notebooks are checked and cleaned automatically.  
+- All steps are automated with `make` targets.
+
+For full reproducibility and hygiene practices, see [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
+
+---
+
 ## 🛠️ Tools & Libraries
 
 - Python 3.12
