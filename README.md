@@ -165,8 +165,9 @@ Because good data science isn't just about seeing what's obvious -
 > **it's about seeing the unseen.**
 
 👉 You'll see Spider Checks sprinkled across the notebooks (Audio, Text, TF-IDF, PHQ-8, and Multimodal Merge).  
-Each one is a quick peace-of-mind peek tailored to its modality.
-
+  Each one is a quick peace-of-mind peek tailored to its modality.
+  
+> **🕷️ Spider Check™ is an Elle-ism — feel free to adopt it, remix it, or make it your own..**
 ---
 
 
