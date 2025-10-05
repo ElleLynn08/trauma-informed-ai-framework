@@ -1,4 +1,8 @@
 SHELL := /bin/bash
+# Always use the project's venv for any CLI in recipes
+VENV_BIN := $(PWD)/.venv/bin
+export PATH := $(VENV_BIN):$(PATH)
+
 # ------------------------------
 # Makefile (developer shortcuts)
 # ------------------------------
@@ -51,7 +55,6 @@ all-deps: dev extras
 # Workflow commands
 # ------------------------------
 
-# test: Run unit tests quietly with pytest.
 # Why: Fast signal that the core code path and interfaces still behave as expected.
 test:
 	pytest -q
