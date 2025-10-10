@@ -1,4 +1,4 @@
-# Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
+**# Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
 
 > Graduate independent study exploring interpretable AI for trauma-aware emotional state recognition and clinical augmentation.
 
@@ -167,8 +167,8 @@ Because good data science isn't just about seeing what's obvious -
 👉 You'll see Spider Checks sprinkled across the notebooks (Audio, Text, TF-IDF, PHQ-8, and Multimodal Merge).  
   Each one is a quick peace-of-mind peek tailored to its modality.
   
-> **🕷️ Spider Check™ is an Elle-ism — feel free to adopt it, remix it, or make it your own..**
----
+> **🕷️ Spider Check is an Elle-ism — feel free to adopt it, remix it, or make it your own. It is just a "head check" or "sanity check"**
+---**
 
 
 ## 🔭 Upcoming Milestones
