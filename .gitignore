@@ -36,3 +36,16 @@ src/__pycache__/
 tests/__pycache__/
 utils/__pycache__/
 
+
+# Ignore large data and generated outputs
+data/
+outputs/
+archive/
+__pycache__/
+*.parquet
+*.csv
+*.png
+*.txt
+.ipynb_checkpoints/
+notebooks/06_microexpression_clean_and_compare.ipynb
+

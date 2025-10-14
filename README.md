@@ -1,30 +1,33 @@
-**# Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
+#  Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
 
-> Graduate independent study exploring interpretable AI for trauma-aware emotional state recognition and clinical augmentation.
-
----
-
-## 📌 Project Summary
-
-This research explores a trauma-informed, multimodal AI framework that detects affective patterns such as emotional shutdown, dissociation, or depressive flat affect in high-stakes environments. The goal is to support-not replace-human decision-making in clinical and crisis response contexts.
-
-This first phase leverages the **DAIC-WOZ dataset** to prototype an emotionally-aware, ethically guided ML system with a strong emphasis on transparency and real-world clinical relevance.
+> Graduate independent study exploring interpretable AI for trauma-aware emotional state recognition and clinical augmentation.*
 
 ---
 
-## 🧠 Why It Matters
+## 📘 Project Summary
 
-Traditional AI systems often misinterpret trauma responses-mistaking withdrawal, flat affect, or dissociation for resistance or noncompliance. This work contributes to the growing movement toward **compassion-centered**, **bias-mitigated**, and **interpretable** machine learning solutions.
+This research explores a **trauma-informed, multimodal AI framework** that detects affective patterns such as emotional shutdown, dissociation, or depressive flat affect in high-stakes environments.  
+The goal is to **support — not replace — human decision-making** in clinical and crisis-response contexts.
+
+This first phase leverages the **DAIC-WOZ dataset** to prototype an emotionally-aware, ethically-guided ML system with a strong emphasis on **transparency** and **real-world clinical relevance**.
 
 ---
+
+## 💡 Why It Matters
+
+Traditional AI systems often misinterpret trauma responses — mistaking withdrawal, flat affect, or dissociation for resistance or noncompliance.  
+This work contributes to the growing movement toward **compassion-centered**, **bias-mitigated**, and **interpretable** machine-learning solutions.
+
+---
+
 
 ## 📚 Dataset Used
 
 | Dataset     | Source                     | Status              | Notes                                                                 |
 |-------------|----------------------------|---------------------|-----------------------------------------------------------------------|
 | DAIC-WOZ    | USC-ICT                    | ✅ Approved/downloaded | Depression & anxiety interviews with rich multimodal cues             |
-| CASME II    | Chinese Academy of Sciences | ✅ Approved          | Micro-expressions; access granted upon request                        |
-| SMIC        | University of Oulu         | Pending            | Micro-expression dataset; license agreement required before download  |
+| CASME II    | Chinese Academy of Sciences | ✅ Approved/downloaded       | Micro-expressions; access granted upon request                        |
+| SMIC        | University of Oulu         | ✅ Approved/downloaded          | Micro-expression dataset; license agreement required before download  |
 
 > ⚠️ **Data Access Notice:**  
 > These datasets are not publicly distributable.  
@@ -111,6 +114,35 @@ For full reproducibility and hygiene practices, see [REPRODUCIBILITY.md](REPRODU
 
 ---
 
+## 🧩 Notebook Overview
+
+| Notebook | Dataset(s) | Focus | Outputs |
+|-----------|-------------|--------|----------|
+| **01 – Import + EDA** | DAIC-WOZ | Initial cleaning, PHQ-8 label prep | `data/processed/` |
+| **02 – Baselines** | DAIC-WOZ | Logistic Regression + Random Forest baselines | `outputs/models/` |
+| **03 – Feature Engineering** | DAIC-WOZ (audio + text + video) | Multimodal fusion features | `data/fused/` |
+| **04 – Model Training + Fairness** | DAIC-WOZ | Calibrated classification + subgroup fairness audit | `outputs/metrics/` |
+| **05 – Model Calibration + Safety Verification** | DAIC-WOZ (108 participants) | ✅ Z3-based symbolic empathy rules, safety verification, and population-level audit | `outputs/checks/`, `outputs/visuals/` |
+| **06 – Microexpression Fusion** | SMIC + CASME II | Multilabel emotion mapping, AU alignment, Haunting Problem expansion | _in progress_ |
+
+---
+
+## 🧠 Theory Integration — *The Haunting Problem*
+
+> “Where symbolic logic fails to decide, human context must remain present.” — M.L. George
+
+**The Haunting Problem** introduces a new category of verification risk:  
+when silence, masking, or repression produce *false confidence* in AI safety checks.  
+
+- Challenges assumptions of observability in model verification  
+- Frames **absence as evidence** within trauma-aware AI  
+- Informs the Z3 symbolic empathy rules used throughout Notebook 05 – 06  
+
+📄 Read the full definition and formal write-up:  
+[`docs/theory_haunting_problem.md`](docs/theory_haunting_problem.md)
+
+---
+
 ## 🛠️ Tools & Libraries
 
 - Python 3.12
@@ -119,6 +151,17 @@ For full reproducibility and hygiene practices, see [REPRODUCIBILITY.md](REPRODU
 - SHAP or LIME for explainability
 - Jupyter Notebook / JupyterLab
 - `.venv` (virtual environment)
+
+---
+## 📦 Key Outputs
+
+| Artifact | Type | Path |
+|-----------|------|------|
+| Full Empathy Audit (108 participants × 23 rules) | `.parquet`, `.csv` | `outputs/checks/z3_empathy_audit_results_full.*` |
+| Symbolic Flag Log | `.txt` | `outputs/checks/z3_flags_full.txt` |
+| Top 10 Rule Frequency Plot | `.png` | `outputs/visuals/z3_full_empathy_rule_top10.png` |
+| Empathy Activation Heatmap (Purples) | `.png` | `outputs/visuals/z3_full_empathy_activation_heatmap.png` |
+| Calibrated Model Artifact | `.joblib` | `outputs/models/final_model_linsvc.joblib` |
 
 ---
 
@@ -143,9 +186,7 @@ For full reproducibility and hygiene practices, see [REPRODUCIBILITY.md](REPRODU
 
 ---
 
----
-
-## 🌱 Elle-isms in This Project
+## 🌱 Human Touch: Elle-isms in Practice
 
 This project is technical at its core, but it also carries my personality.  
 I believe data science should be **human, memorable, and compassionate** - not just rows and columns.
@@ -170,14 +211,53 @@ Because good data science isn't just about seeing what's obvious -
 > **🕷️ Spider Check is an Elle-ism — feel free to adopt it, remix it, or make it your own. It is just a "head check" or "sanity check"**
 ---**
 
+---
+### 🔭 Milestones & Next Steps
 
-## 🔭 Upcoming Milestones
+### ✅ Completed
 
-- [ ] Complete full EDA on DAIC-WOZ  
-- [ ] Prototype initial multimodal classification model  
-- [ ] Integrate SHAP explainability outputs  
-- [ ] Draft publication-ready article  
-- [ ] Prepare visuals and dashboard for final submission/presentation  
+- [x] **Full EDA + preprocessing** on DAIC-WOZ  
+- [x] **Multimodal feature fusion** (text + audio + video)  
+- [x] **Calibrated model training & fairness audit** (Notebook 04)  
+- [x] **Z3-based symbolic safety verification** + empathy-rule audit across 108 participants (Notebook 05)  
+- [x] **Formal theory authored:** *The Haunting Problem* → [`docs/theory_haunting_problem.md`](docs/theory_haunting_problem.md)  
+- [x] **Dual-course integration:** CS 6315 (Auto Verification) + CS 8390 (Independent Study)
+
+---
+
+### 🚀 In Progress
+
+- [ ] **Notebook 06 — Microexpression Fusion**  
+  - Load & clean SMIC and CASME II datasets  
+  - Normalize frame rates + AU alignment  
+  - Integrate multilabel emotion taxonomy  
+  - Expand Z3 logic to detect masked or “null” expressions  
+
+- [ ] **Link symbolic safety layer** back into the main pipeline for cross-dataset calibration  
+- [ ] **README + Docs polish**  (add visuals, cross-refs, and artifact table)
+
+---
+
+### 🌌 Future Phases (2025 → 2026)
+
+- [ ] Pattern-learning extension — train a model to recognize suppression / dissociation patterns from Z3 flags  
+- [ ] Submit short paper to an AI-ethics or Responsible-AI venue (e.g., FAccT / AAAI workshop)  
+- [ ] Integrate individual-level safety dashboards + explainability layer  
+- [ ] Thesis & publication deliverables (final article + appendices + presentation)
+
+---
+
+
+## 🎓 Academic Integration
+
+This repository fulfills dual objectives:
+
+| Course | Deliverable |
+|---------|--------------|
+| **CS 6315 – Automated Verification** | Formal Z3 symbolic audit engine + fairness constraints |
+| **CS 8390 – Independent Study (Trauma-Informed AI)** | Full multimodal pipeline + publication-ready theory (*The Haunting Problem*) |
+
+Both tracks share a single verified codebase and documentation standard for long-term reproducibility.
 
 ---
 
