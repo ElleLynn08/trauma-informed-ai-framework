@@ -26,7 +26,7 @@ However, in trauma-aware contexts, states like:
 * Dissociation
 * Ambiguous neutrality
 
-...may encode emotional signals that fail to register within existing logical formalisms — creating undetected harm, misclassification, or overconfident validation.
+...may encode emotional signals that remain invisible to current logical or statistical formalisms, resulting in undetected harm, silent misclassification, or false assurances of safety.
 
 ---
 
