@@ -47,5 +47,3 @@ __pycache__/
 *.png
 *.txt
 .ipynb_checkpoints/
-notebooks/06_microexpression_clean_and_compare.ipynb
-
