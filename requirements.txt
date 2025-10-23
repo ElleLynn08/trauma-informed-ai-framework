@@ -119,3 +119,9 @@ websocket-client==1.8.0
 wheel==0.45.1
 pyarrow
 z3-solver
+# --- Apple Silicon / DeepFace compatibility (optional) ---
+tensorflow-macos==2.13.0
+tensorflow-metal==1.1.0
+deepface==0.0.93
+opencv-python==4.10.0.84
+tf-keras==2.20.1

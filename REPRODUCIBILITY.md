@@ -1,185 +1,148 @@
-# Reproducibility & Hygiene Guide
+# Reproducibility Guide
 
-This project is designed for **reproducible research** and strict hygiene.  
-Every notebook, dataset, and environment step is documented here so that others (and my future self!) can reproduce the results exactly.
-
----
-
-## 📚 Dataset Access
-
-⚠️ **Important Disclaimer:**  
-All datasets used in this project are available **for research and non-commercial use only**.  
-You must request access directly from the dataset providers and agree to their license terms and consent forms.  
-These datasets cannot be redistributed in this repository.
-
-- **DAIC-WOZ** (Distress Analysis Interview Corpus – Wizard of Oz)  
-  - Request form: [USC ICT](https://dcapswoz.ict.usc.edu/)  
-  - Contains audio, video, and transcripts of clinical interviews.  
-
-- **CASME II** (Chinese Academy of Sciences Micro-Expressions II)  
-  - Request form: [CASME II Dataset](http://casme.psych.ac.cn/casme/e2)  
-  - Contains high-resolution micro-expression sequences.  
-
-- **SMIC** (Spontaneous Micro-expression Corpus, University of Oulu)  
-  - Contact: [University of Oulu – Center for Machine Vision and Signal Analysis](https://www.oulu.fi/en/university/faculties-and-units/faculty-information-technology-and-electrical-engineering/center-for-machine-vision-and-signal-analysis)  
-  - Access requires contacting the research group and signing agreements.  
-
-👉 Once you obtain the datasets, place them under:
-```
-data/raw/
-```
+This document details the technical setup, environment management, and system configuration used to reproduce experiments in the **Trauma-Informed, Empathy-Aware AI Framework**.
 
 ---
 
-## 🖥️ Environment Setup
+## 🖥️ Hardware Specifications
 
-1. Clone the repo:
-   ```bash
-   git clone <your-repo-url>
-   cd trauma_informed_ai_framework
-   ```
+| Component | Specification |
+|------------|----------------|
+| **Device** | Mac Studio (2023) |
+| **Processor** | Apple M2 Max (12-core CPU, 30-core GPU) |
+| **Memory** | 32 GB Unified Memory |
+| **Operating System** | macOS Tahoe 26.0.1 |
+| **Display** | Apple Studio Display (27-inch, 5120×2880 Retina) |
+| **Acceleration** | TensorFlow Metal GPU backend enabled |
+| **Python Environments** | Dual environments: `.venv` (3.12) and `deepface_env` (3.10) |
 
-2. Create a virtual environment (recommended `.venv`):
+This configuration ensures both symbolic verification and DeepFace inference can run independently and reproducibly.
+
+---
+
+## ⚙️ Environment Overview
+
+The project uses **two isolated virtual environments** to maintain reproducibility and compatibility.
+
+### 1. `.venv` (Python 3.12)
+Used for all symbolic logic, Z3 verification, and data processing notebooks.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+**Key libraries:**
+- `z3-solver`, `pandas`, `scikit-learn`, `numpy`
+- `matplotlib`, `seaborn`, `jupyterlab`, `notebook`
+
+> TensorFlow is not included here; it is only supported via the secondary environment.
+
+---
+
+### 2. `deepface_env` (Python 3.10)
+Used for emotion recognition, DeepFace, Mediapipe, and OpenCV pipelines.
+
+```bash
+python3.10 -m venv deepface_env
+source deepface_env/bin/activate
+pip install -r requirements-extras.txt
+brew install ffmpeg
+```
+
+**Key libraries:**
+- `tensorflow-macos`, `tensorflow-metal`, `deepface`
+- `mediapipe`, `opencv-python`, `opensmile`
+- `ffmpeg-python`, `moviepy`, `sentence-transformers`
+
+This environment enables the DeepFace + TensorFlow integrations powering emotion inference from CASME II and SMIC datasets.
+
+---
+
+## 📦 Dependency Management
+
+- **requirements.txt** — for reproducible symbolic verification, fairness auditing, and modeling.  
+- **requirements-extras.txt** — for GPU-accelerated visual and audio inference on Apple Silicon.
+
+Check installations:
+
+```bash
+pip list | grep tensorflow
+pip list | grep deepface
+```
+
+---
+
+## 🧩 Reproduction Steps
+
+1. **Dataset Setup**
+   - Request and download DAIC-WOZ, CASME II, and SMIC datasets.  
+   - Place files in the following local directory structure:
+     ```
+     data/raw/
+     ```
+
+2. **Environment Initialization**
    ```bash
-   python3 -m venv .venv
    source .venv/bin/activate
+   pip install -r requirements.txt
+   deactivate
+
+   source deepface_env/bin/activate
+   pip install -r requirements-extras.txt
+   deactivate
    ```
 
-3. Install dependencies:
-   ```bash
-   make dev        # base requirements
-   make extras     # optional extras (audio/embeddings/widgets)
-   make all-deps   # both in one go
-   ```
-
-4. Verify environment:
-   ```bash
-   make env
-   ```
-   This prints Python version, OS info, and confirms required packages are available.
-
----
-
-## 🧼 Hygiene Tools
-
-This repo uses automated tools to keep notebooks and code clean, consistent, and reproducible.
-
-### 1. ASCII Spider Check 🕷️
-
-Scans code and docs for hidden non-ASCII characters (curly quotes, em dashes, ellipses, etc.).
-
-This ties into my **Spider Check philosophy**:  
-a Spider Check is my shorthand for a quick peace-of-mind sanity step — like pulling back the covers in a cabin to make sure no critters are hiding before you rest.  
-In this project, it means confirming files look as expected and are free of hidden characters before building further.  
-
-It’s light, a little quirky, and part of my personality woven into the workflow — because good data science isn’t just about what’s obvious, it’s about *seeing the unseen*.
-
-```bash
-make ascii-check
-```
-
-Alias:
-```bash
-make spider-check
-```
-
-Output should be:
-```
-✅ No non-ASCII issues detected (aside from allowed symbols).
-```
-
-> Symbols like ✅, 🕷️, and README emojis are whitelisted intentionally.
-
----
-
-### 2. Notebook Cleaner
-Notebooks often pick up curly quotes, em dashes, or ellipses when you paste text.  
-To normalize them:
-
-- **Fix in place:**
-  ```bash
-  make nb-fix
-  ```
-
-- **Check only (dry run):**
-  ```bash
-  make nb-check
-  ```
-
-Expected clean output:
-```
-all notebooks clean.
-```
-
----
-
-### 3. Full Sanity Sweep
-Runs environment check, ASCII spider check, and notebook check in one step:
-
-```bash
-make sanity
-```
-
-Expected clean run:
-```
-✅ No non-ASCII issues detected (aside from allowed symbols).
-all notebooks clean.
-```
-
----
-
-## 📓 Reproducing Experiments
-
-1. **Prepare datasets**  
-   - Ensure you’ve downloaded and placed them in `data/raw/` as described above.  
-   - Run any preprocessing notebooks as directed (these will generate files in `data/processed/`).
-
-2. **Run one notebook at a time**  
-   ```bash
-   make run-nb NB=notebooks/01_import_clean_eda.ipynb
-   ```
-
-3. **Run all notebooks sequentially**  
+3. **Run Experiments**
    ```bash
    make run-all
    ```
 
-   Logs are saved to:
-   ```
-   logs/notebook_runs/
-   ```
+4. **Verify Outputs**
+   - Expected artifacts should include:
+     - `data/processed/symbolic_rule_matrix.parquet`
+     - `outputs/visuals/symbolic_rule_activation_matrix.png`
+     - `data/processed/empathy_rule_fusion.parquet`
 
 ---
 
-## ✅ Pre-Push Checklist
+## 🔍 Spider Check Verification
 
-Before committing or pushing, always run:
+Before pushing or archiving results, verify all critical artifacts:
 
-```bash
-make nb-fix       # normalize notebooks
-make ascii-check  # ensure code/docs clean
-make sanity       # full hygiene sweep
-make run-all      # verify reproducibility
+```python
+from pathlib import Path
+expected = [
+    "data/processed/symbolic_rule_matrix.parquet",
+    "data/processed/symbolic_rule_matrix.csv",
+    "outputs/visuals/symbolic_rule_activation_matrix.png",
+    "data/processed/empathy_rule_fusion.parquet",
+    "data/processed/fuzzy_thresholds.json"
+]
+for f in expected:
+    print("✅" if Path(f).exists() else "⚠️", f)
 ```
 
-Commit only when everything passes.
+---
+
+## 🧠 Notes on Reproducibility
+
+- **Hardware Acceleration:** TensorFlow Metal requires macOS 12+ and M1/M2 chips.  
+- **Fixed Seeds:** Randomization is controlled in all notebooks for consistent results.  
+- **Version Locking:** Dependency versions are pinned to ensure long-term reproducibility.  
+- **Privacy Compliance:** Raw datasets remain local and are never pushed to GitHub. Only derived `.parquet`, `.csv`, and `.png` artifacts are versioned.
 
 ---
 
-## 🔍 Notes & Troubleshooting
+## 📜 Citation
 
-- **Smart punctuation** sneaks in when copying from PDFs, Word, or websites.  
-  Solution: `make nb-fix`.
+If using or referencing this work, please cite:
 
-- **ASCII Spider Check** flags dataset names correctly once normalized.  
-  Emojis are whitelisted — no action needed unless you add new ones.
-
-- **Dataset access** must be obtained manually; links and contacts are provided above.  
-  Do **not** push raw or processed dataset files into the repo.
+> George, M.L. (2025). *Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment.* Vanderbilt University.
 
 ---
 
-For quick start, see [README.md](README.md).  
-For full hygiene practices, use this document.
-
----
+**Maintained by:** Michelle (Elle) Lynn George  
+📧 [Michelle.L.George@vanderbilt.edu](mailto:Michelle.L.George@vanderbilt.edu)  
+🌐 [https://ellelynn.netlify.app](https://ellelynn.netlify.app)

@@ -24,3 +24,8 @@ ydata-profiling
 black==24.10.0
 flake8==7.1.1
 isort==5.13.2
+
+# DeepFace / OpenFace multimedia helpers
+ffmpeg-python
+moviepy
+mediapipe
