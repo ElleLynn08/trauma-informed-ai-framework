@@ -47,3 +47,7 @@ __pycache__/
 *.png
 *.txt
 .ipynb_checkpoints/
+
+# DeepFace environments and inference outputs
+deepface_env/
+deepface_inference/
