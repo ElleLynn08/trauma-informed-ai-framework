@@ -141,31 +141,34 @@ make run-all
 | Notebook | Dataset(s) | Focus | Outputs |
 |-----------|-------------|--------|----------|
 | **01 – Import + EDA** | DAIC-WOZ | Cleaning, PHQ-8 prep | `data/processed/` |
-| **02 – Baselines** | DAIC-WOZ | Logistic Regression, Random Forest baselines | `outputs/models/` |
+| **02 – Baselines** | DAIC-WOZ | Logistic Regression and Random Forest baselines | `outputs/models/` |
 | **03 – Feature Engineering** | DAIC-WOZ | Audio, text, and video feature fusion | `data/fused/` |
 | **04 – Model Training + Fairness** | DAIC-WOZ | Calibrated classification + fairness audit | `outputs/metrics/` |
 | **05 – Model Calibration + Safety Verification** | DAIC-WOZ | ✅ Z3 symbolic empathy rules + calibration audit | `outputs/checks/`, `outputs/visuals/` |
-| **06 – Microexpression Fusion** | SMIC + CASME II | AU mapping and dataset fusion | `outputs/checks/` |
-| **07 – Microexpression Modeling** | SMIC + CASME II | Classifier benchmarks (LogReg, RF, KNN, SVC, MLP) | `outputs/visuals/` |
-| **08 – Symbolic Facial Audit** | SMIC + CASME II | Z3-based symbolic facial rule application | `data/processed/`, `outputs/visuals/` |
+| **06 – Micro-Expression Fusion** | SMIC + CASME II | AU mapping and dataset fusion | `outputs/checks/` |
+| **07 – Micro-Expression Modeling** | SMIC + CASME II | Classifier benchmarks (LogReg, RF, KNN, SVC, MLP) | `outputs/visuals/` |
+| **08 – Symbolic Facial Audit** | SMIC + CASME II | Z3-based symbolic facial-rule application | `data/processed/`, `outputs/visuals/` |
 | **09 – Fusion Modeling + Fuzzy-Symbolic Integration** | All datasets | Hybrid fuzzy calibration + symbolic empathy weighting | `data/processed/`, `outputs/visuals/` |
-| **10 – Symbolic Verification (Final)** | Derived data | ✅ Verified all 25 empathy rules (SAT) + final spider check | `data/processed/`, `outputs/visuals/` |
-
+| **10 – Symbolic Verification (Core)** | Derived data | ✅ Verified all 25 empathy rules (SAT) + final spider check | `data/processed/`, `outputs/visuals/` |
+| **11 – Edge-Case Verification Suite** | Derived data | 🧩 Stress-tests symbolic empathy rules under contradiction, boundary, and signal-loss conditions to confirm logical stability | `outputs/edge_cases/` |
 ---
 ## 📦 Key Artifacts & Outputs
+Each notebook builds on the previous stage, progressing from preprocessing
+and modeling to symbolic reasoning, verification, and finally edge-case testing.
 
 | Artifact | Type | Path | Description |
 |-----------|------|------|--------------|
-| **Symbolic Rule Matrix (25 Rules)** | `.parquet`, `.csv` | `data/processed/symbolic_rule_matrix.*` | ✅ Final verified empathy rule set from Notebook 10 — includes all 25 trauma-informed symbolic logic rules (Reflective → Haunting Zone) validated as satisfiable (SAT) under Z3 theorem prover :contentReference[oaicite:0]{index=0}:contentReference[oaicite:1]{index=1}. |
-| **Symbolic Rule Activation Matrix** | `.png` | `outputs/visuals/symbolic_rule_activation_matrix.png` | Visual summary of rule activation states. Green = Satisfied (SAT), Yellow = Unknown, Red = Unsatisfied — all final rules verified as SAT, confirming logical consistency and ethical stability of the empathy model. |
-| **Empathy Fusion Data** | `.parquet` | `data/processed/empathy_rule_fusion.parquet` | Intermediate fused output combining confidence, emotion category, and fuzzy membership weights for symbolic reasoning (source: Notebook 09 fusion + Notebook 08 audit). |
+| **Symbolic Rule Matrix (25 Rules)** | `.parquet`, `.csv` | `data/processed/symbolic_rule_matrix.*` | ✅ Final verified empathy rule set from Notebook 10 — includes all 25 trauma-informed symbolic logic rules (Reflective → Haunting Zone) validated as satisfiable (SAT) under the Z3 solver. |
+| **Symbolic Rule Activation Matrix** | `.png` | `outputs/visuals/symbolic_rule_activation_matrix.png` | Visual summary of rule-activation states. Green = Satisfied (SAT), Yellow = Unknown, Red = Unsatisfied (UNSAT). Confirms logical consistency and ethical stability of the empathy model. |
+| **Empathy Fusion Data** | `.parquet` | `data/processed/empathy_rule_fusion.parquet` | Intermediate fused output combining confidence, emotion category, and fuzzy-membership weights for symbolic reasoning (source: Notebook 09 fusion + Notebook 08 audit). |
 | **Fuzzy Threshold Constants** | `.json` | `data/processed/fuzzy_thresholds.json` | Hybrid quantile + fixed-range cutoffs (Low ≤ 0.60; High > 0.83) used across Notebooks 09–10 to maintain consistent symbolic calibration. |
-| **Fuzzy Confidence Visualization** | `.png` | `outputs/visuals/fuzzy_confidence_distribution.png` | Histogram showing normalized confidence distribution and uncertainty zones (Low, Medium, High) — foundational to symbolic empathy scaling :contentReference[oaicite:2]{index=2}. |
-| **Fuzzy–Emotion Heatmap** | `.png` | `outputs/visuals/fuzzy_emotion_heatmap.png` | Cross-tab visualization of emotion class × fuzzy confidence level. Demonstrates adaptive hesitation for ambiguous emotions (neutral/surprise). |
+| **Fuzzy Confidence Visualization** | `.png` | `outputs/visuals/fuzzy_confidence_distribution.png` | Histogram showing normalized confidence distribution and uncertainty zones (Low, Medium, High) — foundational to symbolic-empathy scaling. |
+| **Fuzzy–Emotion Heatmap** | `.png` | `outputs/visuals/fuzzy_emotion_heatmap.png` | Cross-tab visualization of emotion class × fuzzy-confidence level. Demonstrates adaptive hesitation for ambiguous emotions (neutral / surprise). |
 | **Empathy Signal Distribution Plot** | `.png` | `outputs/visuals/empathy_signal_distribution.png` | Histogram + boxplot showing reflective, cautious, and assertive reasoning tiers derived from EmpathySignal. |
-| **Empathy Rule Fusion (Z3 Ready)** | `.parquet` | `data/processed/fuzzy_symbolic_ready.parquet` | Cleaned symbolic input table aligned for Z3 solver integration; includes ConfidenceNorm, EmpathySignal, and rule weight coefficients. |
+| **Empathy Rule Fusion (Z3 Ready)** | `.parquet` | `data/processed/fuzzy_symbolic_ready.parquet` | Cleaned symbolic-input table aligned for Z3 integration; includes ConfidenceNorm, EmpathySignal, and rule-weight coefficients. |
 | **Microexpression Feature Alignment** | `.parquet` | `data/processed/fused_visual_emotions_fuzzy.parquet` | Final merged emotion dataset from SMIC + CASME II with fuzzy-calibrated confidence; input to symbolic fusion in Notebook 09. |
 | **Final Verification Notebook** | `.ipynb` | `notebooks/10_symbolic_verification.ipynb` | Complete end-to-end Z3 verification of all symbolic empathy rules — proving coherence, ethical reasoning, and absence of logical contradictions. |
+| **Edge-Case Verification Suite** | `.ipynb`, `.csv`, `.png` | `notebooks/11_edge_case_suite.ipynb`, `outputs/edge_cases/` | ✅ New Notebook 11 — stress-tests symbolic empathy rules under boundary, contradiction, and signal-loss conditions. Includes `edge_case_results.csv` and `verification_surface_final.png`, confirming logical stability across all fuzzy-tier thresholds. |
 | **Calibrated Model Artifact** | `.joblib` | `outputs/models/final_model_linsvc.joblib` | Final CalibratedClassifierCV model with sigmoid scaling for PHQ-8 depression classification (DAIC-WOZ baseline, Notebook 04). |
 | **Microexpression Confusion Matrices** | `.png` | `outputs/visuals/07_confmat_*.png` | Class-level visualizations of model confusion (happy, sad, angry, neutral, surprise) used to evaluate SMIC + CASME II predictive stability. |
 
@@ -229,15 +232,38 @@ Both tracks share this single verified, reproducible codebase.
 
 ## 📜 License
 
-This work is distributed under the [MIT License](https://opensource.org/licenses/MIT).
+© 2025 Michelle Lynn George  
+
+**Paper & documentation** — licensed under a  
+[Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)  
+
+**Source code** — licensed under the  
+[MIT License](LICENSE)
+
+You are free to share and adapt the written material for non-commercial purposes,
+provided that proper credit is given, a link to this license is included,
+and any changes made are indicated.
 
 ---
 
-For collaboration or questions, contact:  
-**Michelle (Elle) Lynn George**  
-📧 [Michelle.L.George@vanderbilt.edu](mailto:Michelle.L.George@vanderbilt.edu)  
-🌐 [https://ellelynn.netlify.app](https://ellelynn.netlify.app)
+### 📄 Citation
 
+George, M. L. (2025). *The Haunting Problem: Recognizing Semantic Absence in Trauma-Aware AI (v1.0).*  
+Zenodo. [https://doi.org/10.5281/zenodo.17578153](https://doi.org/10.5281/zenodo.17578153)
+
+---
+
+## 🤝 Collaboration & Contact
+
+For collaboration inquiries, research discussions, or dataset access verification, please reach out via:
+
+**Michelle (Elle) Lynn George**  
+**Vanderbilt University — School of Engineering**  
+📧 [Michelle.L.George@vanderbilt.edu](mailto:Michelle.L.George@vanderbilt.edu)  
+📧 [Elle.Lynn.Research@icloud.com](mailto:Elle.Lynn.Research@icloud.com)  
+🌐 [https://ellelynn.netlify.app](https://ellelynn.netlify.app)  
+
+> *Open to interdisciplinary collaborations in Responsible AI, trauma-aware systems, and symbolic verification ethics.*
 ---
 
 > ✨ *For the unseen. For those who felt invisible. For the ones who whispered their truth and still weren't heard — until now.*
