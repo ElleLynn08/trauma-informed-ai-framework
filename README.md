@@ -1,7 +1,8 @@
-# Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
-
-> Graduate independent study exploring interpretable AI for trauma-aware emotional-state recognition and clinical augmentation.
-
+# Recognizing the Unseen: A Verified, Multimodal Framework for Trauma-Informed AI  
+**Author:** Michelle Lynn George (Elle)  
+📍 Vanderbilt University, School of Engineering  
+📄 [Published Preprint: *The Haunting Problem* (Zenodo, 2025)](https://doi.org/10.5281/zenodo.17578153)  
+💡 [Portfolio & Contact](https://ellelynn.netlify.app)
 ---
 
 ## 📘 Project Summary

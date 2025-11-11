@@ -62,3 +62,7 @@ deepface_inference/
 __pycache__/
 *.pbtxt
 *.tfevents*
+
+#visuals for articles/extras
+article_visuals/
+notebooks/visuals_haunting_article.ipynb
