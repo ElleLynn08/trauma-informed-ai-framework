@@ -1,8 +1,27 @@
-# Recognizing the Unseen: A Verified, Multimodal Framework for Trauma-Informed AI  
+# Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
 **Author:** Michelle Lynn George (Elle)  
 📍 Vanderbilt University, School of Engineering  
-📄 [Published Preprint: *The Haunting Problem* (Zenodo, 2025)](https://doi.org/10.5281/zenodo.17578153)  
-💡 [Portfolio & Contact](https://ellelynn.netlify.app)
+🌐 [Portfolio & Contact](https://ellelynn.netlify.app)
+
+---
+
+## 📘 Published Work (Phase I — The Haunting Problem)
+
+**Primary preprint:**  
+George, M. L. (2025). *The Haunting Problem: Recognizing Semantic Absence in Trauma-Aware AI* (v1.0). Zenodo.  
+https://doi.org/10.5281/zenodo.17578153
+
+**Supplementary poster:**  
+George, M. L. (2025). *Poster: The Haunting Problem — Recognizing Semantic Absence in Trauma-Aware AI* (v1.0). Zenodo.  
+https://doi.org/10.5281/zenodo.17584658
+
+---
+
+
+> Graduate independent study integrating trauma-aware modeling, interpretable AI, and symbolic verification for emotional-state recognition and clinical safety.
+
+
+
 ---
 
 ## 📘 Project Summary
@@ -153,6 +172,58 @@ make run-all
 | **10 – Symbolic Verification (Core)** | Derived data | ✅ Verified all 25 empathy rules (SAT) + final spider check | `data/processed/`, `outputs/visuals/` |
 | **11 – Edge-Case Verification Suite** | Derived data | 🧩 Stress-tests symbolic empathy rules under contradiction, boundary, and signal-loss conditions to confirm logical stability | `outputs/edge_cases/` |
 ---
+
+## 🧪 Empathy Verification Suite (Notebook 11)
+
+Notebook 11 represents the culmination of the trauma-informed symbolic reasoning pipeline.  
+It performs a comprehensive **Edge-Case Verification Suite** designed to confirm the stability, consistency, and ethical coherence of the empathy-verification logic under adversarial and uncertain conditions.
+
+### 🔍 What Notebook 11 Tests
+
+The suite evaluates empathy logic across **seven layers of scrutiny**:
+
+1. **Standard Edge Cases**  
+   Cross-modal contradiction, temporal instability, modality loss, and calibrated hesitation.
+
+2. **Dense Confidence Sweep (0.0 → 1.0)**  
+   Confirms monotonic behavior across Reflective, Cautious, and Assertive tiers.  
+   SAT → hesitation; UNSAT → enforced safety.
+
+3. **Stylized + Real Boundary Overlay**  
+   A publication-quality SAT/UNSAT boundary showing empirical agreement with the theoretical fuzzy tiers.
+
+4. **Multi-Rule Interaction Grid**  
+   A 2D test across **confidence × audio reliability**, producing a rich, nonlinear decision surface.  
+   Reliable audio → sharp UNSAT at high confidence;  
+   Unreliable audio → safe ambiguity maintained.
+
+5. **Boundary Perturbation (±0.01–0.03)**  
+   Confirms smooth transitions around 0.60 and 0.83 thresholds with no unexpected flips.
+
+6. **Noise Robustness Test (500 random samples)**  
+   Randomized confidence + modality reliability under contradiction.  
+   Results:  
+   - SAT “noise cloud” in safe regions  
+   - Tight UNSAT cluster only in assertive + reliable contradiction  
+   - Zero unsafe leaks or false UNSATs
+
+7. **Global Ontology Consistency Check**  
+   *SAT*: all empathy rules can be true simultaneously  
+   *UNSAT*: SAFE ∧ ¬SAFE is impossible  
+   → proves no hidden contradictions in the empathy-logic ontology
+
+---
+
+### 🧾 Outputs
+
+Notebook 11 generates CSV files, publication-ready figures, and logs stored under:`outputs/edge_cases/`
+
+These include dense sweeps, interaction surfaces, perturbation plots, and noise-test diagrams—each confirming the stability of the empathy verification boundary under increasingly stressful conditions.
+
+> **This suite demonstrates that empathy can be treated as a formal, verifiable safety property.**
+
+
+---
 ## 📦 Key Artifacts & Outputs
 Each notebook builds on the previous stage, progressing from preprocessing
 and modeling to symbolic reasoning, verification, and finally edge-case testing.
@@ -179,8 +250,35 @@ and modeling to symbolic reasoning, verification, and finally edge-case testing.
 - The **EmpathySignal** (Notebook 09) and **SymbolicRuleMatrix** (Notebook 10) together form the first *formally verified emotional reasoning core* — a quantifiable proof that empathy can be represented as a consistent logical construct.
 - All verification assets are self-contained and reproducible; no external data dependencies are committed.
 - Each artifact contributes to a multi-layer verification chain: *data → fuzzification → fusion → rule evaluation → symbolic proof*.
+---
+
+## 🛡️ Verification Summary
+
+Across all tests, the empathy-verification engine demonstrated:
+
+- **Local correctness**  
+  (edge cases behave as expected)
+
+- **Tier-aligned logic**  
+  Reflective + Cautious → SAT  
+  Assertive contradiction → UNSAT  
+
+- **Nonlinear reliability awareness**  
+  Reliable audio triggers strict UNSAT; unreliable audio preserves uncertainty
+
+- **Boundary coherence**  
+  Perturbations around 0.60 and 0.83 produce smooth, predictable transitions
+
+- **Noise robustness**  
+  500 randomized samples confirm stability under jitter, classifier variation, and modality uncertainty
+
+- **Ontology-level consistency**  
+  All empathy rules are jointly satisfiable, and SAFE ∧ ¬SAFE is impossible
+
+Together, these findings confirm the framework as **logically stable, ethically aligned, and mathematically verifiable**, forming the emotional safety core of the Trauma-Aware AI Trilogy.
 
 ---
+
 ## 🧠 Theory Integration — *The Haunting Problem*
 
 **The Haunting Problem** introduces a new category of verification risk:  
