@@ -1,0 +1,79 @@
+# =============================================================================
+# 🌙 TRAUMA-INFORMED AI FRAMEWORK — MASTER MAKEFILE (NOTEBOOKS 01–11)
+# =============================================================================
+# Author: Michelle Lynn George (Elle)
+# Vanderbilt University — School of Engineering
+# -----------------------------------------------------------------------------
+# This Makefile automates the execution and export of all Jupyter notebooks
+# across the full verified pipeline (01–11), ensuring reproducibility and
+# consistent documentation. Each notebook corresponds to a phase within the
+# Trauma-Informed AI Framework Trilogy.
+# -----------------------------------------------------------------------------
+# Commands:
+#   make run-nb NB=<notebook_name>   → Execute a single notebook in place
+#   make run-all                     → Execute all notebooks sequentially
+#   make convert-html NB=<notebook>  → Convert a single notebook to HTML
+#   make html-all                    → Convert all notebooks to HTML
+#   make clean                       → Strip outputs and temporary artifacts
+# =============================================================================
+
+# Directory structure
+NB_DIR      := notebooks
+HTML_DIR    := notebooks_html
+
+# -----------------------------------------------------------------------------
+# 🌿 Single Notebook Commands
+# -----------------------------------------------------------------------------
+
+# Execute one notebook in place
+run-nb:
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/$(NB).ipynb
+
+# Convert a single notebook to HTML for easy viewing
+convert-html:
+	jupyter nbconvert --to html $(NB_DIR)/$(NB).ipynb --output-dir=$(HTML_DIR)
+
+# -----------------------------------------------------------------------------
+# 🌱 Full Pipeline Execution
+# -----------------------------------------------------------------------------
+# Run all verified notebooks sequentially (01–11)
+# Each corresponds to a major framework phase
+
+run-all:
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/01_import_clean_eda.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/02_model_baselines.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/03_feature_engineering_multimodal.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/04_model_training.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/05_model_calibration_verification.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/06_microexpression_clean_and_compare.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/07_microexpression_modeling.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/08_symbolic_facial_audit.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/09_fusion_modeling_and_symbolic_rules.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/10_symbolic_verification.ipynb
+	jupyter nbconvert --execute --to notebook --inplace $(NB_DIR)/11_edge_case_suite.ipynb
+
+# -----------------------------------------------------------------------------
+# 🌟 Export All Notebooks to HTML
+# -----------------------------------------------------------------------------
+# Converts every notebook (01–11) to HTML for visual review without execution
+# Ideal for submission, archival, and faculty review (Dr. Sedighi)
+# -----------------------------------------------------------------------------
+
+html-all:
+	jupyter nbconvert --to html $(NB_DIR)/*.ipynb --output-dir=$(HTML_DIR)
+
+# -----------------------------------------------------------------------------
+# 🧹 Clean Outputs
+# -----------------------------------------------------------------------------
+# Removes HTML exports and strips large cell outputs from notebooks while
+# retaining code. Keeps repo lightweight and reproducible.
+# -----------------------------------------------------------------------------
+
+clean:
+	rm -rf $(HTML_DIR)/*.html
+	find $(NB_DIR) -name "*.ipynb" -exec jupyter nbstripout {} \;
+
+# =============================================================================
+# 🌕 End of File — "For the unseen. For those who felt invisible."
+# =============================================================================
+
