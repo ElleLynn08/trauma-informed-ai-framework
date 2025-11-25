@@ -1,21 +1,40 @@
-# Recognizing the Unseen: A Multimodal, Trauma-Informed AI Framework for Crisis Detection and Clinical Assessment
+# Recognizing the Unseen: A Verified, Multimodal Framework for Trauma-Informed AI
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17705532.svg)](https://doi.org/10.5281/zenodo.17705532)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![Python](https://img.shields.io/badge/Python-3.12-blue.svg)
+
 **Author:** Michelle Lynn George (Elle)  
 📍 Vanderbilt University, School of Engineering  
 🌐 [Portfolio & Contact](https://ellelynn.netlify.app)
 
+
+## 📘 Published Trilogy — Trauma-Informed AI Framework (2025)
+
+### 🔹 Core Publications
+
+**George, M. L. (2025).** *Recognizing the Unseen: A Verified, Multimodal Framework for Trauma-Informed AI* (v1.0). Zenodo.  
+https://doi.org/10.5281/zenodo.17705532  
+
+**George, M. L. (2025).** *Empathy as Verification: Formalizing Emotional Safety through Symbolic Logic* (v1.0). Zenodo.  
+https://doi.org/10.5281/zenodo.17639714  
+
+**George, M. L. (2025).** *The Haunting Problem: Recognizing Semantic Absence in Trauma-Aware AI* (v1.0). Zenodo.  
+https://doi.org/10.5281/zenodo.17578153  
+
+### 🔹 Supporting Datasets & Materials
+
+**George, M. L. (2025).** *Trauma-Aware AI Noise Robustness Dataset* (v1.0) [Data set]. Zenodo.  
+https://doi.org/10.5281/zenodo.17620950  
+
+**George, M. L. (2025).** *Poster: The Haunting Problem — Recognizing Semantic Absence in Trauma-Aware AI* (v1.0). Zenodo.  
+https://doi.org/10.5281/zenodo.17584658  
+
+> Together, these works form the **Trauma-Informed AI Framework Trilogy**—a complete research arc moving from theory (*The Haunting Problem*), to verification (*Empathy as Verification*), to perception (*Recognizing the Unseen*).  
+> The trilogy establishes an ethical, logical, and multimodal foundation for trauma-aware artificial intelligence and verified emotional reasoning.
+
 ---
 
-## 📘 Published Work (Phase I — The Haunting Problem)
-
-**Primary preprint:**  
-George, M. L. (2025). *The Haunting Problem: Recognizing Semantic Absence in Trauma-Aware AI* (v1.0). Zenodo.  
-https://doi.org/10.5281/zenodo.17578153
-
-**Supplementary poster:**  
-George, M. L. (2025). *Poster: The Haunting Problem — Recognizing Semantic Absence in Trauma-Aware AI* (v1.0). Zenodo.  
-https://doi.org/10.5281/zenodo.17584658
-
----
 
 
 > Graduate independent study integrating trauma-aware modeling, interpretable AI, and symbolic verification for emotional-state recognition and clinical safety.
@@ -345,10 +364,13 @@ and any changes made are indicated.
 
 ---
 
-### 📄 Citation
+#### 🔖 How to Cite
 
-George, M. L. (2025). *The Haunting Problem: Recognizing Semantic Absence in Trauma-Aware AI (v1.0).*  
-Zenodo. [https://doi.org/10.5281/zenodo.17578153](https://doi.org/10.5281/zenodo.17578153)
+If referencing this framework or its components, please cite the trilogy collectively:
+
+George, M. L. (2025). *Trauma-Informed AI Framework Trilogy (The Haunting Problem, Empathy as Verification, Recognizing the Unseen).* Zenodo.  
+https://doi.org/10.5281/zenodo.17705532
+
 
 ---
 
@@ -363,6 +385,9 @@ For collaboration inquiries, research discussions, or dataset access verificatio
 🌐 [https://ellelynn.netlify.app](https://ellelynn.netlify.app)  
 
 > *Open to interdisciplinary collaborations in Responsible AI, trauma-aware systems, and symbolic verification ethics.*
+---
+**Acknowledgments:**  
+Grateful to Dr. Art Sedighi (Vanderbilt University) for mentorship and guidance in Automated Verification and symbolic reasoning.
 ---
 
 > ✨ *For the unseen. For those who felt invisible. For the ones who whispered their truth and still weren't heard — until now.*

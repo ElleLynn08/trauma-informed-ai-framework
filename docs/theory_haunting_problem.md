@@ -3,6 +3,10 @@
 > “Where symbolic logic fails to decide, human context must remain present.” — M.L. George
 
 ---
+> 🔗 **Related Publications:**  
+> - [Recognizing the Unseen (v1.0)](https://doi.org/10.5281/zenodo.17705532)  
+> - [Empathy as Verification (v1.0)](https://doi.org/10.5281/zenodo.17639714)  
+> - [The Haunting Problem (v1.0)](https://doi.org/10.5281/zenodo.17578153)
 
 ##  Formal Definition
 
