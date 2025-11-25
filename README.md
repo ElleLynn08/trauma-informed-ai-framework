@@ -1,8 +1,6 @@
 # Recognizing the Unseen: A Verified, Multimodal Framework for Trauma-Informed AI
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17705532.svg)](https://doi.org/10.5281/zenodo.17705532) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) ![Python](https://img.shields.io/badge/Python-3.12-blue.svg)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17705532.svg)](https://doi.org/10.5281/zenodo.17705532)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-![Python](https://img.shields.io/badge/Python-3.12-blue.svg)
 
 **Author:** Michelle Lynn George (Elle)  
 📍 Vanderbilt University, School of Engineering  
